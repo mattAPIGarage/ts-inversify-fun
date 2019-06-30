@@ -12,7 +12,12 @@ module.exports =  {
   rules:  {
     // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
     // e.g. "@typescript-eslint/explicit-function-return-type": "off",
-    "no-console": ["error", { allow: ["warn", "error"] }]
+    "no-console": ["error", { allow: ["warn", "error"] }],
+    "allowExpressions": true,
+    "allowTypedFunctionExpressions": true,
+    "allowHigherOrderFunctions": true,
+    "@typescript-eslint/explicit-function-return-type": false,
+    "@typescript-eslint/explicit-member-accessibility": false,
   },
 };
 

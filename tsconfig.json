@@ -11,6 +11,8 @@
     "allowJs": true,
     "emitBOM": true,
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "types": ["reflect-metadata", "jest", "node"],
     "extendedDiagnostics": true,
     "incremental": true,
     "noImplicitReturns": true,
