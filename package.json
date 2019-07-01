@@ -9,8 +9,8 @@
   },
   "scripts": {
     "build": "npm run lint && npm test && npm run webpack-prod",
-    "build-ts": "tsc index.ts **/*.ts",
-    "watch": "tsc -w index.ts **/*.ts",
+    "build-ts": "tsc -p .",
+    "watch": "tsc -w -p .",
     "webpack-dev": "webpack --mode=development",
     "webpack-prod": "webpack --mode=production",
     "lint": "eslint --fix **/*.ts",
