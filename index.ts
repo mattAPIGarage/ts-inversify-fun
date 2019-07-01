@@ -1,48 +1,50 @@
 import CustomLogger from './src/logger'
-import "reflect-metadata"
+import 'reflect-metadata'
 
 const logger = CustomLogger.logger
 logger.info('welcome to my typescript start kit!')
 
-import {Container, Inject, Service} from "typedi";
+import { Container, Inject, Service } from 'typedi'
 
 @Service()
 class BeanFactory {
-    create() {
-    }
+  create() {
+    logger.info('BeanFactory: create.')
+  }
 }
 
 @Service()
 class SugarFactory {
-    create() {
-    }
+  create() {
+    logger.info('SugarFactory: create.')
+  }
 }
 
 @Service()
 class WaterFactory {
-    create() {
-    }
+  create() {
+    logger.info('WaterFactory: create.')
+  }
 }
 
 @Service()
 class CoffeeMaker {
+  @Inject()
+  beanFactory: BeanFactory
 
-    @Inject()
-    beanFactory: BeanFactory;
-    
-    @Inject()
-    sugarFactory: SugarFactory;
-    
-    @Inject()
-    waterFactory: WaterFactory;
+  @Inject()
+  sugarFactory: SugarFactory
 
-    make() {
-        this.beanFactory.create();
-        this.sugarFactory.create();
-        this.waterFactory.create();
-    }
+  @Inject()
+  waterFactory: WaterFactory
 
+  make() {
+    logger.info('CoffeeMakser: make.')
+    this.beanFactory.create()
+    this.sugarFactory.create()
+    this.waterFactory.create()
+  }
 }
 
-let coffeeMaker = Container.get(CoffeeMaker);
-coffeeMaker.make();
+let coffeeMaker = Container.get(CoffeeMaker)
+coffeeMaker.make()
