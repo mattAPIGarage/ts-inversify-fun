@@ -4,56 +4,54 @@ import 'reflect-metadata'
 const logger = CustomLogger.logger
 logger.info('welcome to my typescript start kit!')
 
-import { Container, /* Inject,*/ Service } from 'typedi'
+import { Container, Service } from 'typedi'
+import { ITokenRepository, ApplicationsService, IIdentityRepository } from './src/service.factory'
 
 @Service()
-class BeanFactory {
-  create() {
-    logger.info('BeanFactory: create.')
-  }
-}
-
-@Service()
-class SugarFactory {
-  create() {
-    logger.info('SugarFactory: create.')
-  }
-}
-
-@Service()
-class WaterFactory {
-  create() {
-    logger.info('WaterFactory: create.')
-  }
-}
-
-@Service()
-class CoffeeMaker {
-  // injection style
+class UserService {
+  //
+  // constructor injection style
+  // Nore: there is also a property injection style
+  // e.g.
   // @Inject()
   // beanFactory: BeanFactory
-  // @Inject()
-  // sugarFactory: SugarFactory
-  // @Inject()
-  // waterFactory: WaterFactory
-
-  private beanFactory!: BeanFactory
-  private sugarFactory!: SugarFactory
-  private waterFactory!: WaterFactory
-
-  constructor(beanFactory: BeanFactory, sugarFactory: SugarFactory, waterFactory: WaterFactory) {
-    this.beanFactory = beanFactory
-    this.sugarFactory = sugarFactory
-    this.waterFactory = waterFactory
+  //
+  tokendb!: ITokenRepository
+  appService!: ApplicationsService
+  identitydb!: IIdentityRepository
+  constructor(
+    tokendb: ITokenRepository,
+    appService: ApplicationsService,
+    identitydb: IIdentityRepository,
+  ) {
+    this.tokendb = tokendb
+    this.appService = appService
+    this.identitydb = identitydb
   }
 
-  make() {
-    logger.info('CoffeeMakser: make.')
-    this.beanFactory.create()
-    this.sugarFactory.create()
-    this.waterFactory.create()
+  make(param: string) {
+    logger.info('making the userService by injecting dependence... ')
+    this.tokendb.create(param)
+    this.appService.create()
+    this.identitydb.create()
+  }
+  doSomthing() {
+    logger.info('calling tokendb.show ...')
+    this.tokendb.show()
+    const token = '12345'
+    logger.info(`calling tokendb.storeActivationEntry with token ${token} ...`)
+    this.tokendb.storeActivationEntry(token)
   }
 }
+logger.info('>>> making the service with some parameters .... ')
+const userService = Container.get(UserService)
+userService.make('123')
+userService.doSomthing()
 
-let coffeeMaker = Container.get(CoffeeMaker)
-coffeeMaker.make()
+logger.info(
+  '>>> fetch the same service from the container (no make),  should be the same instance .... ',
+)
+const userService2 = Container.get(UserService)
+userService2.doSomthing()
+
+// TODO: play with nameed / tokenize service
