@@ -1,11 +1,11 @@
 import CustomLogger from './src/logger'
-import { myContainer } from "./src/inversify.config";
-import { TYPES } from "./src/types";
-import { Warrior } from "./src/interfaces";
+import { myContainer } from './src/inversify.config'
+import { TYPES } from './src/types'
+import { Warrior } from './src/interfaces'
 
 const logger = CustomLogger.logger
 
-const ninja = myContainer.get<Warrior>(TYPES.Warrior);
+const ninja = myContainer.get<Warrior>(TYPES.Warrior)
 
 // expect(ninja.fight()).eql("cut!"); // true
 // expect(ninja.sneak()).eql("hit!"); // true
