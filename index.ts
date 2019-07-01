@@ -1,16 +1,48 @@
 import CustomLogger from './src/logger'
-import { myContainer } from "./src/inversify.config";
-import { TYPES } from "./src/types";
-import { Warrior } from "./src/interfaces";
+import "reflect-metadata"
 
 const logger = CustomLogger.logger
-
-const ninja = myContainer.get<Warrior>(TYPES.Warrior);
-
-// expect(ninja.fight()).eql("cut!"); // true
-// expect(ninja.sneak()).eql("hit!"); // true
-
 logger.info('welcome to my typescript start kit!')
 
-logger.info(`night fight! ${ninja.fight()}`)
-logger.info(`night sneak! ${ninja.sneak()}`)
+import {Container, Inject, Service} from "typedi";
+
+@Service()
+class BeanFactory {
+    create() {
+    }
+}
+
+@Service()
+class SugarFactory {
+    create() {
+    }
+}
+
+@Service()
+class WaterFactory {
+    create() {
+    }
+}
+
+@Service()
+class CoffeeMaker {
+
+    @Inject()
+    beanFactory: BeanFactory;
+    
+    @Inject()
+    sugarFactory: SugarFactory;
+    
+    @Inject()
+    waterFactory: WaterFactory;
+
+    make() {
+        this.beanFactory.create();
+        this.sugarFactory.create();
+        this.waterFactory.create();
+    }
+
+}
+
+let coffeeMaker = Container.get(CoffeeMaker);
+coffeeMaker.make();
