@@ -4,7 +4,7 @@ import 'reflect-metadata'
 const logger = CustomLogger.logger
 logger.info('welcome to my typescript start kit!')
 
-import { Container, Inject, Service } from 'typedi'
+import { Container, /* Inject,*/ Service } from 'typedi'
 
 @Service()
 class BeanFactory {
@@ -29,14 +29,23 @@ class WaterFactory {
 
 @Service()
 class CoffeeMaker {
-  @Inject()
-  beanFactory: BeanFactory
+  // injection style
+  // @Inject()
+  // beanFactory: BeanFactory
+  // @Inject()
+  // sugarFactory: SugarFactory
+  // @Inject()
+  // waterFactory: WaterFactory
 
-  @Inject()
-  sugarFactory: SugarFactory
+  private beanFactory!: BeanFactory
+  private sugarFactory!: SugarFactory
+  private waterFactory!: WaterFactory
 
-  @Inject()
-  waterFactory: WaterFactory
+  constructor(beanFactory: BeanFactory, sugarFactory: SugarFactory, waterFactory: WaterFactory) {
+    this.beanFactory = beanFactory
+    this.sugarFactory = sugarFactory
+    this.waterFactory = waterFactory
+  }
 
   make() {
     logger.info('CoffeeMakser: make.')
